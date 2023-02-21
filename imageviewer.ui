@@ -36,6 +36,9 @@
       <height>512</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>CrossCursor</cursorShape>
+    </property>
     <property name="frameShape">
      <enum>QFrame::Panel</enum>
     </property>
@@ -49,7 +52,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_grayvalue">
+   <widget class="QLabel" name="label_colorvalue">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -59,7 +62,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Gray Value</string>
+     <string>Color Value</string>
     </property>
    </widget>
   </widget>

@@ -33,8 +33,6 @@ private:
 private slots:
     void buttonLoadImageClicked();
 
-//    void labelGrayValueFeedback();
-
 private:
     Ui::ImageViewer *ui;
 };
