@@ -10,13 +10,16 @@ CONFIG += c++17
 
 include($$PWD/opencv470/opencv470.pri)
 
+INCLUDEPATH += \
+    imagelabel/
+
 SOURCES += \
     main.cpp \
     imageviewer.cpp
 
 HEADERS += \
-    imagelabel.hpp \
-    imageviewer.h
+    imageviewer.h \
+    imagelabel/imagelabel.hpp
 
 FORMS += \
     imageviewer.ui

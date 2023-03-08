@@ -12,6 +12,7 @@
 #include <QtWidgets/QApplication>
 #include <QtGui/QImage>
 #include <QtGui/QPixmap>
+#include <QPainter>
 #include "imagelabel.hpp"
 #include <string>
 
