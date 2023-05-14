@@ -14,7 +14,9 @@
 #include <QtGui/QPixmap>
 #include <QPainter>
 #include "imagelabel.hpp"
+#include <iostream>
 #include <string>
+#include <cmath>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ImageViewer; }
@@ -31,10 +33,20 @@ public:
 private:
     void loadSlots();
 
+    void showImage(cv::Mat &image, ImageType image_type);
+
 private slots:
     void buttonLoadImageClicked();
 
+    void on_button_rgb_clicked();
+
+    void on_button_gray_clicked();
+
+    void on_button_hsi_clicked();
+
 private:
     Ui::ImageViewer *ui;
+
+    QString m_image_path;
 };
 #endif // IMAGEVIEWER_H
