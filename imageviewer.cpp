@@ -6,6 +6,8 @@ ImageViewer::ImageViewer(QWidget *parent)
     , ui(new Ui::ImageViewer)
 {
     ui->setupUi(this);
+    this->setWindowIcon(QIcon(":/ui/Resource/icon.ico"));
+
     loadSlots();
 }
 
