@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/ui">
         <file>Resource/icon.ico</file>
+        <file>Resource/icon2.ico</file>
     </qresource>
 </RCC>
