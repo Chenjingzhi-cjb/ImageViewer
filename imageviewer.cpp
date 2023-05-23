@@ -2,27 +2,45 @@
 #include "ui_imageviewer.h"
 
 ImageViewer::ImageViewer(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::ImageViewer)
-{
+    : QMainWindow(parent),
+      ui(new Ui::ImageViewer) {
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/ui/Resource/icon2.ico"));
 
     loadSlots();
 }
 
-ImageViewer::~ImageViewer()
-{
+ImageViewer::~ImageViewer() {
     delete ui;
 }
 
-void ImageViewer::loadSlots()
-{
+void ImageViewer::loadSlots() {
     connect(ui->button_loadimage, &QPushButton::clicked, this, &ImageViewer::buttonLoadImageClicked);
 
     connect(ui->label_image, &ImageLabel::mouseSignal, this, [=](QString qstring) {
         ui->label_colorvalue->setText(qstring);
     });
+}
+
+std::wstring ImageViewer::string2wstring(const std::string &str) {
+    int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+    std::wstring wstr(len, L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, const_cast<wchar_t *>(wstr.data()), len);
+    wstr.resize(wcslen(wstr.c_str()));
+    return wstr;
+}
+
+// 解决中文路径的问题
+std::vector<char> ImageViewer::readImage(const QString &image_path) {
+    FILE* f = _wfopen(string2wstring(image_path.toStdString()).c_str(), L"rb");
+    fseek(f, 0, SEEK_END);
+    size_t buffer_size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    std::vector<char> buffer(buffer_size);
+    fread(&buffer[0], sizeof(char), buffer_size, f);
+    fclose(f);
+
+    return std::move(buffer);
 }
 
 void ImageViewer::showImage(cv::Mat &image, ImageType image_type) {
@@ -51,6 +69,9 @@ void ImageViewer::showImage(cv::Mat &image, ImageType image_type) {
         cv::Mat scaled_image;
         cv::resize(image, scaled_image, cv::Size(scaled_width, scaled_height));
 
+        // 将缩放后的图像尺寸传入 ImageLabel
+        ui->label_image->setImageSize(scaled_image.size());
+
         // 将 OpenCV 的 Mat 转换为 Qt 的 QImage
         QImage qimage;
         if (image_type == ImageType::RGB || image_type == ImageType::HSI) {
@@ -75,36 +96,31 @@ void ImageViewer::showImage(cv::Mat &image, ImageType image_type) {
     }
 }
 
-void ImageViewer::buttonLoadImageClicked()
-{
+void ImageViewer::buttonLoadImageClicked() {
     m_image_path = QFileDialog::getOpenFileName(this, tr("Open Image"), ".", tr("Image Files (*.png *.jpg *.bmp *.tif)"));
 
+    on_button_rgb_clicked();
+}
+
+void ImageViewer::on_button_rgb_clicked() {
     if (!m_image_path.isEmpty()) {
-        cv::Mat image = cv::imread(m_image_path.toStdString());
+        cv::Mat image = cv::imdecode(readImage(m_image_path), cv::IMREAD_COLOR);
+
         showImage(image, ImageType::RGB);
     }
 }
 
-void ImageViewer::on_button_rgb_clicked()
-{
+void ImageViewer::on_button_gray_clicked() {
     if (!m_image_path.isEmpty()) {
-        cv::Mat image = cv::imread(m_image_path.toStdString());
-        showImage(image, ImageType::RGB);
-    }
-}
+        cv::Mat image = cv::imdecode(readImage(m_image_path), cv::IMREAD_GRAYSCALE);
 
-void ImageViewer::on_button_gray_clicked()
-{
-    if (!m_image_path.isEmpty()) {
-        cv::Mat image = cv::imread(m_image_path.toStdString(), cv::IMREAD_GRAYSCALE);
         showImage(image, ImageType::GRAY);
     }
 }
 
-void ImageViewer::on_button_hsi_clicked()
-{
+void ImageViewer::on_button_hsi_clicked() {
     if (!m_image_path.isEmpty()) {
-        cv::Mat image = cv::imread(m_image_path.toStdString());
+        cv::Mat image = cv::imdecode(readImage(m_image_path), cv::IMREAD_COLOR);
 
         cv::Mat image_hsi(image.size(), image.type());
 

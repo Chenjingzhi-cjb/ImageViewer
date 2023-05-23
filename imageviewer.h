@@ -14,6 +14,7 @@
 #include <QtGui/QPixmap>
 #include <QPainter>
 #include "imagelabel.hpp"
+#include <windows.h>
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -32,6 +33,10 @@ public:
 
 private:
     void loadSlots();
+
+    std::wstring string2wstring(const std::string &str);
+
+    std::vector<char> readImage(const QString &image_path);
 
     void showImage(cv::Mat &image, ImageType image_type);
 
