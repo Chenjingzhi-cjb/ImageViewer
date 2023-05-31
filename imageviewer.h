@@ -13,15 +13,26 @@
 #include <QtGui/QImage>
 #include <QtGui/QPixmap>
 #include <QPainter>
-#include "imagelabel.hpp"
+#include <QString>
+#include <QList>
+#include <QUrl>
+#include <QFile>
+#include <QMimeData>
+#include <QTextStream>
+#include <QDragEnterEvent>
 #include <windows.h>
 #include <iostream>
 #include <string>
 #include <cmath>
+#include "imagelabel.hpp"
+
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class ImageViewer; }
+
+    namespace Ui { class ImageViewer; }
+
 QT_END_NAMESPACE
+
 
 class ImageViewer : public QMainWindow
 {
@@ -30,6 +41,16 @@ class ImageViewer : public QMainWindow
 public:
     ImageViewer(QWidget *parent = nullptr);
     ~ImageViewer();
+
+public:
+    void externalLoad(QString path);
+
+    static bool checkFileType(QString path);
+
+protected:
+    void dragEnterEvent(QDragEnterEvent *event) override;
+
+    void dropEvent(QDropEvent *event) override;
 
 private:
     void loadSlots();

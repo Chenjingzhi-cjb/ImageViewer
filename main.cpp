@@ -1,8 +1,8 @@
 #include "imageviewer.h"
-
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+
 
 int main(int argc, char *argv[])
 {
@@ -19,9 +19,16 @@ int main(int argc, char *argv[])
             break;
         }
     }
+
     ImageViewer w;
+    if (argc > 1) {  // 捕获输入参数，实现图片拖入可执行文件(exe)运行
+        QString path = QString::fromUtf8(argv[1]);
+
+        if (w.checkFileType(path)) {
+            w.externalLoad(path);
+        }
+    }
     w.show();
+
     return a.exec();
 }
-
-

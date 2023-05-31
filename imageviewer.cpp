@@ -1,17 +1,61 @@
 #include "imageviewer.h"
 #include "ui_imageviewer.h"
 
+
 ImageViewer::ImageViewer(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::ImageViewer) {
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/ui/Resource/icon2.ico"));
 
+    setAcceptDrops(true);
+
     loadSlots();
 }
 
 ImageViewer::~ImageViewer() {
     delete ui;
+}
+
+void ImageViewer::externalLoad(QString path) {
+    m_image_path = std::move(path);
+
+    on_button_rgb_clicked();
+}
+
+bool ImageViewer::checkFileType(QString path) {
+    QList<QString> file_types = {"png", "jpg", "bmp", "tif"};
+    QString path_file_type = path.right(3);  // 目前均为 3
+
+    for (const auto &file_type : file_types) {
+        if (!path_file_type.compare(file_type)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void ImageViewer::dragEnterEvent(QDragEnterEvent *event) {
+    if (event->mimeData()->hasUrls()) {
+        if (checkFileType(event->mimeData()->urls().first().fileName())) {
+            event->acceptProposedAction();
+        } else {
+            event->ignore();
+        }
+    } else {
+        event->ignore();
+    }
+}
+
+void ImageViewer::dropEvent(QDropEvent *event) {
+    const QMimeData *mimeData = event->mimeData();
+    if (mimeData->hasUrls()) {
+        QList<QUrl> urlList = mimeData->urls();
+        m_image_path = urlList.first().toLocalFile();
+
+        on_button_rgb_clicked();
+    }
 }
 
 void ImageViewer::loadSlots() {
