@@ -34,8 +34,7 @@ QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
 
 
-class ImageViewer : public QMainWindow
-{
+class ImageViewer : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -75,4 +74,6 @@ private:
 
     QString m_image_path;
 };
+
+
 #endif // IMAGEVIEWER_H

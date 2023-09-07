@@ -15,15 +15,14 @@ enum ImageType {
 };
 
 
-class ImageLabel : public QLabel
-{
+class ImageLabel : public QLabel {
     Q_OBJECT
 
 public:
     ImageLabel(QWidget *qwidget = 0)
-        : QLabel(qwidget),
-          m_image_size(cv::Size(0, 0)),
-          image_type(ImageType::RGB) {
+            : QLabel(qwidget),
+              m_image_size(cv::Size(0, 0)),
+              image_type(ImageType::RGB) {
         this->setMouseTracking(true);
     }
 
@@ -35,8 +34,7 @@ public:
     }
 
 private:
-    void mouseMoveEvent(QMouseEvent *event) override
-    {
+    void mouseMoveEvent(QMouseEvent *event) override {
         m_qpixmap = this->pixmap(Qt::ReturnByValue);
         if (!m_qpixmap.isNull()) {
             int label_x = event->x();

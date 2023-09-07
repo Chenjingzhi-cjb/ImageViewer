@@ -3,8 +3,8 @@
 
 
 ImageViewer::ImageViewer(QWidget *parent)
-    : QMainWindow(parent),
-      ui(new Ui::ImageViewer) {
+        : QMainWindow(parent),
+          ui(new Ui::ImageViewer) {
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/ui/Resource/icon2.ico"));
 
