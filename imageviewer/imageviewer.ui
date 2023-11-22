@@ -121,7 +121,7 @@
   <customwidget>
    <class>ImageLabel</class>
    <extends>QLabel</extends>
-   <header location="global">imagelabel.hpp</header>
+   <header location="global">image_label.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

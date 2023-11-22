@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ImageViewer"
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "Chenjingzhi-cjb"
 #define MyAppURL "https://github.com/Chenjingzhi-cjb/ImageViewer"
 #define MyAppExeName "ImageViewer.exe"
@@ -20,12 +20,12 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=D:\001_Project\ImageViewer\ImageViewer\LICENSE
+LicenseFile=..\..\ImageViewer\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=D:\001_Project\ImageViewer\setup
-OutputBaseFilename=setup_v1.1
-SetupIconFile=D:\001_Project\ImageViewer\ImageViewer\Resource\icon2.ico
+OutputDir=.
+OutputBaseFilename=setup_v1.3
+SetupIconFile=..\..\ImageViewer\resource\icon2.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -37,8 +37,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\001_Project\ImageViewer\release_bin\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\001_Project\ImageViewer\release_bin\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\release_bin\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\release_bin\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

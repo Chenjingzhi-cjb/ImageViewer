@@ -2,34 +2,30 @@
 #define IMAGEVIEWER_H
 
 #include <QMainWindow>
-#include <opencv2/opencv.hpp>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QMenuBar>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QApplication>
-#include <QtGui/QImage>
-#include <QtGui/QPixmap>
-#include <QPainter>
-#include <QString>
-#include <QList>
+#include <QApplication>
+#include <QAction>
 #include <QUrl>
 #include <QFile>
+#include <QFileDialog>
 #include <QMimeData>
-#include <QTextStream>
 #include <QDragEnterEvent>
+#include <QTextStream>
+#include <QString>
+#include <QList>
+
 #include <windows.h>
 #include <iostream>
 #include <string>
 #include <cmath>
-#include "imagelabel.hpp"
+#include <opencv2/opencv.hpp>
+
+#include "image_label.hpp"
+#include "image_processor.hpp"
 
 
 QT_BEGIN_NAMESPACE
 
-    namespace Ui { class ImageViewer; }
+namespace Ui { class ImageViewer; }
 
 QT_END_NAMESPACE
 
@@ -51,17 +47,8 @@ protected:
 
     void dropEvent(QDropEvent *event) override;
 
-private:
-    void loadSlots();
-
-    std::wstring string2wstring(const std::string &str);
-
-    std::vector<char> readImage(const QString &image_path);
-
-    void showImage(cv::Mat &image, ImageType image_type);
-
 private slots:
-    void buttonLoadImageClicked();
+    void on_button_loadimage_clicked();
 
     void on_button_rgb_clicked();
 
@@ -70,9 +57,18 @@ private slots:
     void on_button_hsi_clicked();
 
 private:
+    void loadConnect();
+
+    static std::wstring string2wstring(const std::string &str);
+
+    // 解决中文路径的问题
+    static std::vector<char> readImage(const QString &image_path);
+
+private:
     Ui::ImageViewer *ui;
 
     QString m_image_path;
+    ImageProcessor m_processor;
 };
 
 
